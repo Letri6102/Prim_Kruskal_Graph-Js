@@ -38,16 +38,16 @@ function setup() {
 	height = windowHeight - 30;
 	createCanvas(width, height);
 
-	const posY = 4750;
+	const posY = 50;
 	const lineHeight = 30;
 	let line = 1;
 	buttonAddVertex = createButton('Thêm Vertex');
 	buttonAddVertex.position(15, posY + (lineHeight * line++));
 	buttonAddVertex.mousePressed(addVertex);
 
-	buttonShowHideId = createButton('Show Hide Id');
-	buttonShowHideId.position(15, posY + (lineHeight * line++));
-	buttonShowHideId.mousePressed(showHideId);
+	// buttonShowHideId = createButton('Show Hide Id');
+	// buttonShowHideId.position(15, posY + (lineHeight * line++));
+	// buttonShowHideId.mousePressed(showHideId);
 
 	buttonSelectVertexA = createButton('Chọn Vertex 1: ?');
 	buttonSelectVertexA.id('buttonSelectVertexA');
@@ -71,7 +71,7 @@ function setup() {
 	let div = createDiv('');
 	div.html('Tốc độ (ms) ', true);
 	div.position(15, posY-5 + (lineHeight * line));
-	speedMS = createInput('1000');
+	speedMS = createInput('100');
 	speedMS.size(50);
 	speedMS.position(105, posY + (lineHeight * line++));
 
@@ -289,14 +289,23 @@ async function PrimMST() {
 	//Console kết quả
 	let mst = [];
 	let totalWeight = 0;
-	console.log("Prim's Algorithm: MSTEdges", MSTEdges);
+	const cmtBlock = document.querySelector("#cmt-block");
+	//console.log("Prim's Algorithm: MSTEdges", MSTEdges);
+	var results = "";
+	results += `<span>Prim's Algorithm:</span>`
 	for (let edge of MSTEdges) {
 		totalWeight += edge.weight;
-		console.log(
-			edge.vertexA.name + ' to ' + edge.vertexB.name + ': ' + edge.weight
-		);
+		// console.log(
+		// 	edge.vertexA.name + ' to ' + edge.vertexB.name + ': ' + edge.weight
+		// );
+		results += `<ul> 
+				<li> ${edge.vertexA.name} to ${edge.vertexB.name}: ${edge.weight}</li>
+			 </ul>`
 	}
-	console.log("Prim's Algorithm: Total weight = " + totalWeight);
+	results += `<span>Prim's Algorithm: Total weight = ${totalWeight} </span>`
+	cmtBlock.innerHTML = results;
+
+	// console.log("Prim's Algorithm: Total weight = " + totalWeight);
 	PrimIsRunning = false;
 	selectingStartVertex = false;
 	document.getElementById('buttonSelectStartVertex').innerText =
@@ -373,15 +382,26 @@ async function KruskalMST() {
 			await delay(speedMS.value());
 		}
 	}
+
+	//In kết quả
 	let totalWeight = 0;
-	console.log("Kruskal's Algorithm: MSTEdges", MSTEdges);
+	const cmtBlock = document.querySelector("#cmt-block");
+	//console.log("Kruskal's Algorithm: MSTEdges", MSTEdges);
+	var results = "";
+	results += `<span>Kruskal's Algorithm:</span>`
+	
 	for (let edge of MSTEdges) {
 		totalWeight += edge.weight;
-		console.log(
-			edge.vertexA.name + ' to ' + edge.vertexB.name + ': ' + edge.weight
-		);
+		// console.log(
+		// 	edge.vertexA.name + ' to ' + edge.vertexB.name + ': ' + edge.weight
+		// );
+		results += `<ul> 
+				<li> ${edge.vertexA.name} to ${edge.vertexB.name}: ${edge.weight}</li>
+			 </ul>`
 	}
-	console.log("Kruskal's Algorithm: Total weight = " + totalWeight);
+	results += `<span>Kruskal's Algorithm: Total weight = ${totalWeight} </span>`
+	cmtBlock.innerHTML = results;
+	//console.log("Kruskal's Algorithm: Total weight = " + totalWeight);
 	KruskalIsRunning = false;
 	document.getElementById('buttonStartKruskal').style.background = 'white';
 }
